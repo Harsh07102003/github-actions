@@ -55,3 +55,15 @@ jobs:
 
       - name: Push to Docker Hub
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/python-app:latest
+
+      - name: Deploy to EC2 via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            docker stop python-app || true
+            docker rm python-app || true
+            docker pull yourdockerhubusername/python-app:latest
+            docker run -d --name python-app -p 80:80 yourdockerhubusername/python-app:latest
