@@ -67,3 +67,4 @@ jobs:
             docker rm python-app || true
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/python-app:latest
             docker run -d --name python-app -p 80:80 ${{ secrets.DOCKERHUB_USERNAME }}/python-app:latest
+            
